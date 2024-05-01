@@ -1,6 +1,6 @@
 class PasswordsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_password, only: [:show]
+  before_action :set_password, except: [:index, :new, :create]
 
   def index
     @passwords = current_user.passwords
@@ -14,17 +14,33 @@ class PasswordsController < ApplicationController
   end
 
   def create
-    # @password = current_user.passwords.create(password_params)
+    @password = current_user.passwords.create(password_params)
 
-    # if @password.persisted?
+    if @password.persisted?
 
-    @password = Password.new(password_params)
-    @password.user_passwords.new(user: current_user)
-    if @password.save
+    # @password = Password.new(password_params)
+    # @password.user_passwords.new(user: current_user)
+    # if @password.save
       redirect_to @password
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
+  end
+
+  def update
+    if @password.update(password_params)
+      redirect_to @password
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @password.destroy
+    redirect_to root_path
   end
 
   private
