@@ -1,12 +1,7 @@
 <h1>Share Password</h1>
 
-<%= form_with model: @user_password, url: password_shares_path(@password), class: "flex justify-between items-center" do |f| %>
-  <div>
-    <%= f.label :user_id %>
-    <%= f.collection_select :user_id, @users, :id, :email %>
-  </div>
+<%= render "form", 
+    password: @password,
+    user_password: @user_password
+%>
 
-  <div>
-    <%= f.submit "Share", class: "bg-gray-500 px-2 py-1 rounded-md mt-2" %>
-  </div>
-<% end %>
