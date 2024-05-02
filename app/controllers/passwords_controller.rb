@@ -53,6 +53,8 @@ class PasswordsController < ApplicationController
 
   def set_password
     @password = current_user.passwords.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to root_path
   end
 
   def require_editable_permission
